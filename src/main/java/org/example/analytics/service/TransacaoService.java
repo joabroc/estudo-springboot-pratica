@@ -1,8 +1,8 @@
-package org.example.analytics.Service;
+package org.example.analytics.service;
 
-import org.example.analytics.Model.Transacao;
-import org.example.analytics.Repository.TransacaoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.example.analytics.exception.NotFoundException;
+import org.example.analytics.model.Transacao;
+import org.example.analytics.repository.TransacaoRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -32,8 +32,9 @@ public class TransacaoService {
         repository.deleteById(id);
     }
 
-    public Optional<Transacao> buscarTransacaoPorId(Long id) {
-        return repository.findById(id);
+    public Transacao buscarTransacaoPorId(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Transação não encontrada com id: " + id));
     }
 
 }

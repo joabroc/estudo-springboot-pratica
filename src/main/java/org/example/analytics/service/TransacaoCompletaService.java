@@ -1,7 +1,8 @@
-package org.example.analytics.Service;
+package org.example.analytics.service;
 
-import org.example.analytics.Model.TransacaoCompleta;
-import org.example.analytics.Repository.TransacaoCompletaRepository;
+import org.example.analytics.exception.NotFoundException;
+import org.example.analytics.model.TransacaoCompleta;
+import org.example.analytics.repository.TransacaoCompletaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,8 @@ public class TransacaoCompletaService {
         return transacaoCompletaRepository.findAll();
     }
 
-    public Optional<TransacaoCompleta> buscarTransacaoCompletaPorId(Long id) {
-        return transacaoCompletaRepository.findById(id);
+    public TransacaoCompleta buscarTransacaoCompletaPorId(Long id) {
+        return transacaoCompletaRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Transação não encontrada com id: " + id));
     }
 }

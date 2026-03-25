@@ -1,7 +1,7 @@
 package org.example.analytics.controller;
 
-import org.example.analytics.Model.TransacaoCompleta;
-import org.example.analytics.Service.TransacaoCompletaService;
+import org.example.analytics.model.TransacaoCompleta;
+import org.example.analytics.service.TransacaoCompletaService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,9 +26,6 @@ public class TransacaoCompletaController {
 
     @GetMapping("/{id}")
     public TransacaoCompleta getTransacaoCompletaById(@PathVariable Long id) {
-        return transacaoCompletaService.buscarTransacaoCompletaPorId(id)
-                .orElse(null);
+        return transacaoCompletaService.buscarTransacaoCompletaPorId(id);
     }
-
-
 }

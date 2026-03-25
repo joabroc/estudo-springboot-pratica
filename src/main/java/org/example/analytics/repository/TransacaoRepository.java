@@ -1,6 +1,6 @@
-package org.example.analytics.Repository;
+package org.example.analytics.repository;
 
-import org.example.analytics.Model.Transacao;
+import org.example.analytics.model.Transacao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

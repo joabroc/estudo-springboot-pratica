@@ -1,7 +1,7 @@
 package org.example.analytics.controller;
 
-import org.example.analytics.Model.Transacao;
-import org.example.analytics.Service.TransacaoService;
+import org.example.analytics.model.Transacao;
+import org.example.analytics.service.TransacaoService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +23,7 @@ public class TransacaoController {
 
     @GetMapping("/{id}")
     public Transacao getTransacaoById(@PathVariable Long id) {
-        return transacaoService.buscarTransacaoPorId(id)
-                .orElse(null);
+        return transacaoService.buscarTransacaoPorId(id);
     }
 
     @PostMapping

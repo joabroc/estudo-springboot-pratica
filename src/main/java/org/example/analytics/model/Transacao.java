@@ -1,4 +1,4 @@
-package org.example.analytics.Model;
+package org.example.analytics.model;
 
 import jakarta.persistence.*;
 
