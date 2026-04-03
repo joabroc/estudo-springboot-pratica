@@ -13,14 +13,17 @@ Este arquivo consolida o histórico técnico relevante da suíte de testes para 
 ### Camada de controller
 - `TransacaoController`
 - `TransacaoCompletaController`
+- `CategoriaController`
 
 ### Camada de service
 - `TransacaoService`
 - `TransacaoCompletaService`
+- `CategoriaService`
 
 ### Camada de repository
 - `TransacaoRepository`
 - `TransacaoCompletaRepository`
+- `CategoriaRepository`
 
 ### Exceptions / tratamento global
 - `NotFoundException`
@@ -30,6 +33,7 @@ Este arquivo consolida o histórico técnico relevante da suíte de testes para 
 ### Models
 - `Transacao`
 - `TransacaoCompleta`
+- `Categoria`
 
 ### Aplicação
 - `AnalyticsApplication`
@@ -150,4 +154,39 @@ Ao final desta sessão, a suíte está executando integralmente com sucesso, cob
 - Comando executado: `./mvnw.cmd clean test`
 - Resultado: `BUILD SUCCESS`
 - Total validado: `24 testes`, `0 falhas`, `0 erros`, `0 ignorados`
+
+## 12. Nova rodada de cobertura (2026-04-03)
+Com a inclusão de novas classes de categoria, foi realizada uma nova expansão da suíte para retomar a cobertura máxima possível.
+
+### 12.1 Classes novas cobertas nesta rodada
+- `src/main/java/org/example/analytics/controller/CategoriaController.java`
+- `src/main/java/org/example/analytics/service/CategoriaService.java`
+- `src/main/java/org/example/analytics/model/Categoria.java`
+
+### 12.2 Testes adicionados nesta rodada
+- `src/test/java/org/example/analytics/controller/CategoriaControllerTest.java`
+- `src/test/java/org/example/analytics/service/CategoriaServiceTest.java`
+- `src/test/java/org/example/analytics/model/CategoriaTest.java`
+- `src/test/java/org/example/analytics/repository/CategoriaRepositoryTest.java`
+- `src/test/java/org/example/analytics/AnalyticsApplicationMainTest.java`
+
+### 12.3 Testes ajustados nesta rodada
+- `src/test/java/org/example/analytics/controller/TransacaoControllerTest.java`
+  - adicionados cenários de `PUT` e `DELETE` para fechar cobertura do controller
+
+### 12.4 Execução e validação
+Comando executado:
+
+```powershell
+.\mvnw.cmd clean verify
+```
+
+Resultado:
+- `BUILD SUCCESS`
+- `39 testes`, `0 falhas`, `0 erros`, `0 ignorados`
+- JaCoCo (`BUNDLE`, linhas): `100%` (gate mínimo configurado em `90%` atendido)
+
+### 12.5 Observações para próximas execuções
+- Repetir sempre com `clean verify` para garantir validação de testes + relatório/gate JaCoCo.
+- Se novas classes de domínio/controller/service forem adicionadas, replicar o padrão atual: teste unitário por camada + teste de repositório quando aplicável.
 

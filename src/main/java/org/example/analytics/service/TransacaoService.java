@@ -37,4 +37,5 @@ public class TransacaoService {
                 .orElseThrow(() -> new NotFoundException("Transação não encontrada com id: " + id));
     }
 
+
 }
