@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +29,7 @@ class TransacaoServiceTest {
 
     @Test
     void listarTodasDeveRetornarTodasAsTransacoes() {
-        Transacao transacao = criarTransacao(1L, 10L, 150.75, 2L, "2026-03-31");
+        Transacao transacao = criarTransacao(1L, 10L, 150.75, 2L, LocalDate.of(2026, 3, 31));
         when(repository.findAll()).thenReturn(List.of(transacao));
 
         List<Transacao> resultado = service.listarTodas();
@@ -41,8 +42,8 @@ class TransacaoServiceTest {
 
     @Test
     void incluirTransacaoDeveSalvarERetornarEntidade() {
-        Transacao transacao = criarTransacao(null, 20L, 99.99, 3L, "2026-04-01");
-        Transacao salva = criarTransacao(5L, 20L, 99.99, 3L, "2026-04-01");
+        Transacao transacao = criarTransacao(null, 20L, 99.99, 3L, LocalDate.of(2026, 4, 1));
+        Transacao salva = criarTransacao(5L, 20L, 99.99, 3L, LocalDate.of(2026, 4, 1));
         when(repository.save(transacao)).thenReturn(salva);
 
         Transacao resultado = service.incluirTransacao(transacao);
@@ -53,7 +54,7 @@ class TransacaoServiceTest {
 
     @Test
     void atualizarTransacaoDevePersistirAlteracoes() {
-        Transacao transacao = criarTransacao(7L, 30L, 240.0, 1L, "2026-04-02");
+        Transacao transacao = criarTransacao(7L, 30L, 240.0, 1L, LocalDate.of(2026, 4, 2));
         when(repository.save(transacao)).thenReturn(transacao);
 
         Transacao resultado = service.atualizarTransacao(transacao);
@@ -71,7 +72,7 @@ class TransacaoServiceTest {
 
     @Test
     void buscarTransacaoPorIdDeveRetornarEntidadeQuandoEncontrada() {
-        Transacao transacao = criarTransacao(12L, 99L, 321.45, 4L, "2026-04-03");
+        Transacao transacao = criarTransacao(12L, 99L, 321.45, 4L, LocalDate.of(2026, 4, 3));
         when(repository.findById(12L)).thenReturn(Optional.of(transacao));
 
         Transacao resultado = service.buscarTransacaoPorId(12L);
@@ -91,7 +92,7 @@ class TransacaoServiceTest {
         verify(repository).findById(404L);
     }
 
-    private Transacao criarTransacao(Long id, Long estabelecimentoId, Double valor, Long tipoPagamentoId, String data) {
+    private Transacao criarTransacao(Long id, Long estabelecimentoId, Double valor, Long tipoPagamentoId, LocalDate data) {
         Transacao transacao = new Transacao();
         transacao.setId(id);
         transacao.setEstabelecimentoId(estabelecimentoId);

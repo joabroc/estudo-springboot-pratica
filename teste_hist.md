@@ -14,16 +14,22 @@ Este arquivo consolida o histórico técnico relevante da suíte de testes para 
 - `TransacaoController`
 - `TransacaoCompletaController`
 - `CategoriaController`
+- `EstabelecimentoController`
+- `TipoPagamentoController`
 
 ### Camada de service
 - `TransacaoService`
 - `TransacaoCompletaService`
 - `CategoriaService`
+- `EstabelecimentoService`
+- `TipoPagamentoService`
 
 ### Camada de repository
 - `TransacaoRepository`
 - `TransacaoCompletaRepository`
 - `CategoriaRepository`
+- `EstabelecimentoRepository`
+- `TipoPagamentoRepository`
 
 ### Exceptions / tratamento global
 - `NotFoundException`
@@ -34,6 +40,8 @@ Este arquivo consolida o histórico técnico relevante da suíte de testes para 
 - `Transacao`
 - `TransacaoCompleta`
 - `Categoria`
+- `Estabelecimento`
+- `TipoPagamento`
 
 ### Aplicação
 - `AnalyticsApplication`
@@ -189,4 +197,47 @@ Resultado:
 ### 12.5 Observações para próximas execuções
 - Repetir sempre com `clean verify` para garantir validação de testes + relatório/gate JaCoCo.
 - Se novas classes de domínio/controller/service forem adicionadas, replicar o padrão atual: teste unitário por camada + teste de repositório quando aplicável.
+
+## 13. Nova rodada de cobertura (2026-04-03 - ciclo 2)
+Foi executada nova sessão após inclusão de classes de estabelecimento e tipo de pagamento.
+
+### 13.1 Classes novas cobertas nesta rodada
+- `src/main/java/org/example/analytics/controller/EstabelecimentoController.java`
+- `src/main/java/org/example/analytics/controller/TipoPagamentoController.java`
+- `src/main/java/org/example/analytics/service/EstabelecimentoService.java`
+- `src/main/java/org/example/analytics/service/TipoPagamentoService.java`
+- `src/main/java/org/example/analytics/repository/EstabelecimentoRepository.java`
+- `src/main/java/org/example/analytics/repository/TipoPagamentoRepository.java`
+- `src/main/java/org/example/analytics/model/Estabelecimento.java`
+- `src/main/java/org/example/analytics/model/TipoPagamento.java`
+
+### 13.2 Testes adicionados nesta rodada
+- `src/test/java/org/example/analytics/controller/EstabelecimentoControllerTest.java`
+- `src/test/java/org/example/analytics/controller/TipoPagamentoControllerTest.java`
+- `src/test/java/org/example/analytics/service/EstabelecimentoServiceTest.java`
+- `src/test/java/org/example/analytics/service/TipoPagamentoServiceTest.java`
+- `src/test/java/org/example/analytics/repository/EstabelecimentoRepositoryTest.java`
+- `src/test/java/org/example/analytics/repository/TipoPagamentoRepositoryTest.java`
+- `src/test/java/org/example/analytics/model/EstabelecimentoTest.java`
+- `src/test/java/org/example/analytics/model/TipoPagamentoTest.java`
+
+### 13.3 Testes ajustados nesta rodada
+- `src/test/java/org/example/analytics/model/TransacaoTest.java`
+- `src/test/java/org/example/analytics/service/TransacaoServiceTest.java`
+- `src/test/java/org/example/analytics/controller/TransacaoControllerTest.java`
+- `src/test/java/org/example/analytics/repository/TransacaoRepositoryTest.java`
+
+Ajustes realizados para refletir a mudança do campo `data` de `Transacao` para `LocalDate`.
+
+### 13.4 Execução e validação
+Comando executado:
+
+```powershell
+.\mvnw.cmd clean verify
+```
+
+Resultado:
+- `BUILD SUCCESS`
+- `63 testes`, `0 falhas`, `0 erros`, `0 ignorados`
+- JaCoCo (`BUNDLE`, linhas): `100%`
 
