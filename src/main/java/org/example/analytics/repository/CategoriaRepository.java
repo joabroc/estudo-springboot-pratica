@@ -1,10 +1,10 @@
 package org.example.analytics.repository;
 
-import org.example.analytics.model.TransacaoCompleta;
+import org.example.analytics.model.Categoria;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TransacaoCompletaRepository extends JpaRepository<TransacaoCompleta, Long> {
+public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 
 }

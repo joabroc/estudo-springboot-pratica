@@ -59,6 +59,24 @@ class TransacaoControllerTest {
         verify(transacaoService).incluirTransacao(entrada);
     }
 
+    @Test
+    void putTransacaoDeveDelegarAtualizacaoAoService() {
+        Transacao transacao = criarTransacao(4L);
+        when(transacaoService.atualizarTransacao(transacao)).thenReturn(transacao);
+
+        Transacao resultado = controller.putTransacao(transacao);
+
+        assertThat(resultado).isSameAs(transacao);
+        verify(transacaoService).atualizarTransacao(transacao);
+    }
+
+    @Test
+    void deleteTransacaoDeveDelegarExclusaoAoService() {
+        controller.deleteTransacao(5L);
+
+        verify(transacaoService).excluirTransacao(5L);
+    }
+
     private Transacao criarTransacao(Long id) {
         Transacao transacao = new Transacao();
         transacao.setId(id);

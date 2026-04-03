@@ -30,4 +30,15 @@ public class TransacaoController {
     public Transacao postTransacao(@RequestParam Transacao transacao) {
         return transacaoService.incluirTransacao(transacao);
     }
+
+    @PutMapping
+    public Transacao putTransacao(@RequestParam Transacao transacao) {
+        return transacaoService.atualizarTransacao(transacao);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteTransacao(@PathVariable Long id) {
+        transacaoService.excluirTransacao(id);
+    }
+
 }
