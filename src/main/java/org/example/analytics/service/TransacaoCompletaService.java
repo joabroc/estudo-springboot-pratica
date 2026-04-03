@@ -25,4 +25,5 @@ public class TransacaoCompletaService {
         return transacaoCompletaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Transação não encontrada com id: " + id));
     }
+
 }
