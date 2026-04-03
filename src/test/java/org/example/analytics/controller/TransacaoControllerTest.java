@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -83,7 +84,7 @@ class TransacaoControllerTest {
         transacao.setEstabelecimentoId(100L);
         transacao.setValor(88.0);
         transacao.setTipoPagamentoId(1L);
-        transacao.setData("2026-03-31");
+        transacao.setData(LocalDate.of(2026, 3, 31));
         return transacao;
     }
 }

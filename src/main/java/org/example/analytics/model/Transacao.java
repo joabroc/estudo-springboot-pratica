@@ -2,6 +2,8 @@ package org.example.analytics.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "transacao")
 public class Transacao {
@@ -19,7 +21,7 @@ public class Transacao {
     private long tipoPagamentoId;
 
     @Column(name = "data_transacao")
-    private String data;
+    private LocalDate data;
 
     public Long getId() {
         return id;
@@ -53,11 +55,11 @@ public class Transacao {
         this.tipoPagamentoId = tipoPagamentoId;
     }
 
-    public String getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 }

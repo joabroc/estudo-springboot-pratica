@@ -28,12 +28,12 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public Categoria postCategoria(@RequestParam Categoria categoria) {
+    public Categoria postCategoria(@RequestBody Categoria categoria) {
         return categoriaService.incluirCategoria(categoria);
     }
 
     @PutMapping
-    public Categoria putCategoria(@RequestParam Categoria categoria) {
+    public Categoria putCategoria(@RequestBody Categoria categoria) {
         return categoriaService.alterarCategoria(categoria);
     }
 
