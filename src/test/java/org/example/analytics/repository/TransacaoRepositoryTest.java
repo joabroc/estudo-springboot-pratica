@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,7 +22,7 @@ class TransacaoRepositoryTest {
         transacao.setEstabelecimentoId(123L);
         transacao.setValor(199.99);
         transacao.setTipoPagamentoId(2L);
-        transacao.setData("2026-03-31");
+        transacao.setData(LocalDate.of(2026, 3, 31));
 
         Transacao salva = repository.save(transacao);
         Optional<Transacao> encontrada = repository.findById(salva.getId());
@@ -31,7 +32,7 @@ class TransacaoRepositoryTest {
         assertThat(encontrada.orElseThrow().getEstabelecimentoId()).isEqualTo(123L);
         assertThat(encontrada.orElseThrow().getValor()).isEqualTo(199.99);
         assertThat(encontrada.orElseThrow().getTipoPagamentoId()).isEqualTo(2L);
-        assertThat(encontrada.orElseThrow().getData()).isEqualTo("2026-03-31");
+        assertThat(encontrada.orElseThrow().getData()).isEqualTo(LocalDate.of(2026, 3, 31));
     }
 }
 

@@ -27,12 +27,12 @@ public class TransacaoController {
     }
 
     @PostMapping
-    public Transacao postTransacao(@RequestParam Transacao transacao) {
+    public Transacao postTransacao(@RequestBody Transacao transacao) {
         return transacaoService.incluirTransacao(transacao);
     }
 
     @PutMapping
-    public Transacao putTransacao(@RequestParam Transacao transacao) {
+    public Transacao putTransacao(@RequestBody Transacao transacao) {
         return transacaoService.atualizarTransacao(transacao);
     }
 
