@@ -241,3 +241,36 @@ Resultado:
 - `63 testes`, `0 falhas`, `0 erros`, `0 ignorados`
 - JaCoCo (`BUNDLE`, linhas): `100%`
 
+## 14. Rodada de validação de logs estruturados (2026-04-11)
+Foi executada uma rodada completa para consolidar a etapa de observabilidade, com foco em contrato de logs HTTP e revalidação ampla das classes e CTs existentes.
+
+### 14.1 Ajustes técnicos implementados
+- Inclusão dos campos `http.method`, `http.path` e `http.status` no contexto (`ThreadContext`) no filtro `CorrelationIdFilter`.
+- Inclusão dos mesmos campos no template JSON de logs (`log4j2-event-template.json`).
+- Registro de access log padronizado por requisição (`event=api.access`) com `durationMs`.
+
+### 14.2 CTs de contrato adicionados/ajustados
+- `src/test/java/org/example/analytics/config/StructuredLogContractTest.java`
+  - cenário `200`: valida `event=api.access` com `http.method`, `http.path`, `http.status`, `traceId` e `correlationId`;
+  - cenário `500`: valida presença de `event=api.error` e `http.status=500` no access log da mesma requisição.
+- `src/test/java/org/example/analytics/config/Log4j2ConfigurationTest.java`
+  - valida presença dos campos HTTP no template estruturado.
+
+### 14.3 Validação por classe e por CT
+Validação executada com `clean verify`, cobrindo:
+- classe de aplicação (`AnalyticsApplication`);
+- controllers, services, repositories, models e handlers;
+- CTs de configuração/logs (`CorrelationIdFilterTest`, `Log4j2ConfigurationTest`, `StructuredLogContractTest`) e suíte existente.
+
+### 14.4 Execução e resultado desta rodada
+Comando executado:
+
+```powershell
+.\mvnw.cmd clean verify
+```
+
+Resultado:
+- `BUILD SUCCESS`
+- `69 testes`, `0 falhas`, `0 erros`, `0 ignorados`
+- JaCoCo executado com `report` + `check` e gate mínimo atendido (`All coverage checks have been met`).
+

@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.analytics.model.Estabelecimento;
 import org.example.analytics.service.EstabelecimentoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +18,9 @@ import java.util.List;
 @Tag(name = "Estabelecimentos", description = "Operações relacionadas aos estabelecimentos")
 public class EstabelecimentoController {
 
-    EstabelecimentoService estabelecimentoService;
+    private static final Logger log = LoggerFactory.getLogger(EstabelecimentoController.class);
+
+    private final EstabelecimentoService estabelecimentoService;
 
     public EstabelecimentoController(EstabelecimentoService estabelecimentoService) {
         this.estabelecimentoService = estabelecimentoService;
@@ -26,7 +30,12 @@ public class EstabelecimentoController {
     @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
     @GetMapping
     public List<Estabelecimento> getAllCategorias() {
-        return estabelecimentoService.listarTodos();
+        long start = System.currentTimeMillis();
+        log.info("event=api.request entity=estabelecimento operation=list outcome=start");
+        List<Estabelecimento> estabelecimentos = estabelecimentoService.listarTodos();
+        log.info("event=api.request entity=estabelecimento operation=list outcome=success durationMs={} count={}",
+                System.currentTimeMillis() - start, estabelecimentos.size());
+        return estabelecimentos;
     }
 
     @Operation(summary = "Buscar estabelecimento por ID", description = "Retorna um estabelecimento específico com base no seu ID")
@@ -36,7 +45,12 @@ public class EstabelecimentoController {
     })
     @GetMapping("/{id}")
     public Estabelecimento getEstabelecimentobyId(@Parameter(description = "ID do estabelecimento") @PathVariable Long id) {
-        return estabelecimentoService.listarEstabelecimentoById(id);
+        long start = System.currentTimeMillis();
+        log.info("event=api.request entity=estabelecimento operation=getById outcome=start id={}", id);
+        Estabelecimento estabelecimento = estabelecimentoService.listarEstabelecimentoById(id);
+        log.info("event=api.request entity=estabelecimento operation=getById outcome=success durationMs={} id={}",
+                System.currentTimeMillis() - start, id);
+        return estabelecimento;
     }
 
     @Operation(summary = "Criar novo estabelecimento", description = "Cadastra um novo estabelecimento no sistema")
@@ -46,7 +60,12 @@ public class EstabelecimentoController {
     })
     @PostMapping
     public Estabelecimento postEstabelecimento(@RequestBody Estabelecimento estabelecimento) {
-        return estabelecimentoService.incluirEstabelecimento(estabelecimento);
+        long start = System.currentTimeMillis();
+        log.info("event=api.request entity=estabelecimento operation=create outcome=start");
+        Estabelecimento estabelecimentoCriado = estabelecimentoService.incluirEstabelecimento(estabelecimento);
+        log.info("event=api.request entity=estabelecimento operation=create outcome=success durationMs={} id={}",
+                System.currentTimeMillis() - start, estabelecimentoCriado.getId());
+        return estabelecimentoCriado;
     }
 
     @Operation(summary = "Atualizar estabelecimento", description = "Atualiza os dados de um estabelecimento existente")
@@ -56,7 +75,12 @@ public class EstabelecimentoController {
     })
     @PutMapping
     public Estabelecimento putEstabelecimento(@RequestBody Estabelecimento estabelecimento) {
-        return estabelecimentoService.alterarEstabelecimento(estabelecimento);
+        long start = System.currentTimeMillis();
+        log.info("event=api.request entity=estabelecimento operation=update outcome=start id={}", estabelecimento.getId());
+        Estabelecimento estabelecimentoAtualizado = estabelecimentoService.alterarEstabelecimento(estabelecimento);
+        log.info("event=api.request entity=estabelecimento operation=update outcome=success durationMs={} id={}",
+                System.currentTimeMillis() - start, estabelecimentoAtualizado.getId());
+        return estabelecimentoAtualizado;
     }
 
     @Operation(summary = "Excluir estabelecimento", description = "Remove um estabelecimento pelo ID")
@@ -66,7 +90,11 @@ public class EstabelecimentoController {
     })
     @DeleteMapping("/{id}")
     public void deleteEstabelecimentoById(@Parameter(description = "ID do estabelecimento a ser excluído") @PathVariable long id) {
+        long start = System.currentTimeMillis();
+        log.info("event=api.request entity=estabelecimento operation=delete outcome=start id={}", id);
         estabelecimentoService.excluirEstabelecimento(id);
+        log.info("event=api.request entity=estabelecimento operation=delete outcome=success durationMs={} id={}",
+                System.currentTimeMillis() - start, id);
     }
 
 }
