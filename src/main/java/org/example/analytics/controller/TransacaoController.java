@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.analytics.model.Transacao;
 import org.example.analytics.service.TransacaoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +17,8 @@ import java.util.List;
 @RequestMapping("/transacoes")
 @Tag(name = "Transações", description = "Operações relacionadas às transações")
 public class TransacaoController {
+
+    private static final Logger log = LoggerFactory.getLogger(TransacaoController.class);
 
     private final TransacaoService transacaoService;
 
@@ -26,7 +30,12 @@ public class TransacaoController {
     @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
     @GetMapping
     public List<Transacao> getAllTransacoes() {
-        return transacaoService.listarTodas();
+        long start = System.currentTimeMillis();
+        log.info("event=api.request entity=transacao operation=list outcome=start");
+        List<Transacao> transacoes = transacaoService.listarTodas();
+        log.info("event=api.request entity=transacao operation=list outcome=success durationMs={} count={}",
+                System.currentTimeMillis() - start, transacoes.size());
+        return transacoes;
     }
 
     @Operation(summary = "Buscar transação por ID", description = "Retorna uma transação específica com base no seu ID")
@@ -36,7 +45,12 @@ public class TransacaoController {
     })
     @GetMapping("/{id}")
     public Transacao getTransacaoById(@Parameter(description = "ID da transação") @PathVariable Long id) {
-        return transacaoService.buscarTransacaoPorId(id);
+        long start = System.currentTimeMillis();
+        log.info("event=api.request entity=transacao operation=getById outcome=start id={}", id);
+        Transacao transacao = transacaoService.buscarTransacaoPorId(id);
+        log.info("event=api.request entity=transacao operation=getById outcome=success durationMs={} id={}",
+                System.currentTimeMillis() - start, id);
+        return transacao;
     }
 
     @Operation(summary = "Criar nova transação", description = "Cadastra uma nova transação no sistema")
@@ -46,7 +60,13 @@ public class TransacaoController {
     })
     @PostMapping
     public Transacao postTransacao(@RequestBody Transacao transacao) {
-        return transacaoService.incluirTransacao(transacao);
+        long start = System.currentTimeMillis();
+        log.info("event=api.request entity=transacao operation=create outcome=start estabelecimentoId={} tipoPagamentoId={}",
+                transacao.getEstabelecimentoId(), transacao.getTipoPagamentoId());
+        Transacao transacaoCriada = transacaoService.incluirTransacao(transacao);
+        log.info("event=api.request entity=transacao operation=create outcome=success durationMs={} id={}",
+                System.currentTimeMillis() - start, transacaoCriada.getId());
+        return transacaoCriada;
     }
 
     @Operation(summary = "Atualizar transação", description = "Atualiza os dados de uma transação existente")
@@ -56,7 +76,12 @@ public class TransacaoController {
     })
     @PutMapping
     public Transacao putTransacao(@RequestBody Transacao transacao) {
-        return transacaoService.atualizarTransacao(transacao);
+        long start = System.currentTimeMillis();
+        log.info("event=api.request entity=transacao operation=update outcome=start id={}", transacao.getId());
+        Transacao transacaoAtualizada = transacaoService.atualizarTransacao(transacao);
+        log.info("event=api.request entity=transacao operation=update outcome=success durationMs={} id={}",
+                System.currentTimeMillis() - start, transacaoAtualizada.getId());
+        return transacaoAtualizada;
     }
 
     @Operation(summary = "Excluir transação", description = "Remove uma transação pelo ID")
@@ -66,7 +91,11 @@ public class TransacaoController {
     })
     @DeleteMapping("/{id}")
     public void deleteTransacao(@Parameter(description = "ID da transação a ser excluída") @PathVariable Long id) {
+        long start = System.currentTimeMillis();
+        log.info("event=api.request entity=transacao operation=delete outcome=start id={}", id);
         transacaoService.excluirTransacao(id);
+        log.info("event=api.request entity=transacao operation=delete outcome=success durationMs={} id={}",
+                System.currentTimeMillis() - start, id);
     }
 
 }
