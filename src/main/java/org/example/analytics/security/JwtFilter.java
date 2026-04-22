@@ -36,10 +36,7 @@ public class JwtFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            // Sem token: 403 Forbidden
-            response.setStatus(403);
-            response.getWriter().write("Forbidden: Token required");
-            log.debug("event=filter.call entity=jwt operation=validateToken outcome=failure reason=no_token");
+            filterChain.doFilter(request, response);
             return;
         }
 
