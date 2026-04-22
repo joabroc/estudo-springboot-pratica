@@ -16,6 +16,7 @@ Este arquivo consolida o histórico técnico relevante da suíte de testes para 
 - `CategoriaController`
 - `EstabelecimentoController`
 - `TipoPagamentoController`
+- `AuthController`
 
 ### Camada de service
 - `TransacaoService`
@@ -23,6 +24,9 @@ Este arquivo consolida o histórico técnico relevante da suíte de testes para 
 - `CategoriaService`
 - `EstabelecimentoService`
 - `TipoPagamentoService`
+- `UserService`
+- `CustomUserDetailsService`
+- `JwtService`
 
 ### Camada de repository
 - `TransacaoRepository`
@@ -30,6 +34,7 @@ Este arquivo consolida o histórico técnico relevante da suíte de testes para 
 - `CategoriaRepository`
 - `EstabelecimentoRepository`
 - `TipoPagamentoRepository`
+- `UserRepository`
 
 ### Exceptions / tratamento global
 - `NotFoundException`
@@ -42,6 +47,7 @@ Este arquivo consolida o histórico técnico relevante da suíte de testes para 
 - `Categoria`
 - `Estabelecimento`
 - `TipoPagamento`
+- `User`
 
 ### Aplicação
 - `AnalyticsApplication`
@@ -274,3 +280,43 @@ Resultado:
 - `69 testes`, `0 falhas`, `0 erros`, `0 ignorados`
 - JaCoCo executado com `report` + `check` e gate mínimo atendido (`All coverage checks have been met`).
 
+## 15. Rodada de implementação Spring Security + JWT (2026-04-22)
+Foi executada uma rodada completa para implementar e testar o sistema de autenticação com Spring Security e JWT, incluindo registro e login de usuários.
+
+### 15.1 Classes novas cobertas nesta rodada
+- `src/main/java/org/example/analytics/controller/AuthController.java`
+- `src/main/java/org/example/analytics/service/UserService.java`
+- `src/main/java/org/example/analytics/service/CustomUserDetailsService.java`
+- `src/main/java/org/example/analytics/service/JwtService.java`
+- `src/main/java/org/example/analytics/security/JwtFilter.java`
+- `src/main/java/org/example/analytics/config/SecurityConfig.java`
+- `src/main/java/org/example/analytics/model/User.java`
+- `src/main/java/org/example/analytics/repository/UserRepository.java`
+
+### 15.2 Testes adicionados nesta rodada
+- `src/test/java/org/example/analytics/controller/AuthControllerTest.java`
+- `src/test/java/org/example/analytics/service/UserServiceTest.java`
+- `src/test/java/org/example/analytics/service/CustomUserDetailsServiceTest.java`
+- `src/test/java/org/example/analytics/service/JwtServiceTest.java`
+- `src/test/java/org/example/analytics/model/UserTest.java`
+- `src/test/java/org/example/analytics/repository/UserRepositoryTest.java`
+
+### 15.3 Testes ajustados nesta rodada
+Nenhum ajuste específico foi necessário nos testes existentes.
+
+### 15.4 Execução e validação
+Comando executado:
+
+```powershell
+.\mvnw.cmd clean install
+```
+
+Resultado:
+- `BUILD SUCCESS`
+- `83 testes`, `0 falhas`, `0 erros`, `0 ignorados`
+- JaCoCo executado com `report` + `check` e gate mínimo atendido (`All coverage checks have been met`).
+
+### 15.5 Observações para próximas execuções
+- A implementação inclui autenticação stateless com BCrypt para senhas e JWT com expiração de 24 horas.
+- Os endpoints `/auth/**` estão liberados, enquanto os demais requerem token Bearer no header `Authorization`.
+- Testes unitários foram criados para validar a lógica de registro, login e geração/validação de tokens.
